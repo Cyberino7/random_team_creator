@@ -59,12 +59,12 @@
             }
         }
 
-        var teamsDiv = document.getElementById("teamsDiv");
-        document.body.removeChild(teamsDiv);
-        teamsDiv = document.createElement("div");
-        teamsDiv.id = "teamsDiv";
+        var table = document.getElementById("teamsTable");
+        if (table !== null) {
+            document.body.removeChild(table);
+        }
 
-        var table = document.createElement('table');
+        table = document.createElement('table');
         table.id = "teamsTable";
 
         var row = table.insertRow();
@@ -79,13 +79,8 @@
                 row.insertCell(1).innerHTML = team2[i];
             }
         }
-         
-        console.log(players);
-        console.log("Team1: " + team1.toString());
-        console.log("Team2: " + team2.toString());
 
-        teamsDiv.appendChild(table);
-        document.body.appendChild(teamsDiv);
+        document.body.appendChild(table);
     }
 </script>
 </html>
