@@ -27,14 +27,17 @@
     #tableHead {
         background-color: lightblue;
     }
+    textarea {
+        width: 50vw;
+        height: 100px;
+    }
 </style>
 <body>
     <h1>Random Team Creator</h1>
-    <div>
-        <label>Players (comma separated): </label>
-        <input type="text" id="playerInput"/>
-    </div>
-    <br>
+    <label>Players (list or comma separated): </label>
+    <br><br>
+    <textarea id="playerInput"></textarea>
+    <br><br>
     <button onclick="createTeams()">Create Teams</button>
     <div id="teamsDiv">
 
@@ -46,6 +49,10 @@
         var players = document.getElementById("playerInput").value.split(',').map(player => player.trim());
         var team1 = [];
         var team2 = [];
+
+        if (players.length == 1) {
+            players = document.getElementById("playerInput").value.split('\n').map(player => player.trim());
+        }
 
         while (players.length > 0) {
             var randomIndex = Math.floor(Math.random() * players.length);
