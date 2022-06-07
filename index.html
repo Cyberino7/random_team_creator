@@ -32,14 +32,14 @@
     </style>
     <script>
         function createTeams() {
-            var players = document.getElementById("playerInput").value.split(',').map(player => player.trim());
+            var players = document.getElementById("playerInput").value.split(',').map(player => player.trim()).filter(element => element != "");
             var team1 = [];
             var team2 = [];
     
             if (players.length == 1) {
-                players = document.getElementById("playerInput").value.split('\n').map(player => player.trim());
+                players = document.getElementById("playerInput").value.split('\n').map(player => player.trim()).filter(element => element != "");
             }
-    
+
             while (players.length > 0) {
                 var randomIndex = Math.floor(Math.random() * players.length);
                 var player = players[randomIndex];
