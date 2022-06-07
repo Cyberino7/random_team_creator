@@ -5,33 +5,80 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Team Creator</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif
+        }
+        #teamsTable {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            border: 1px solid gray;
+            text-align: center;
+        }
+        #teamsTable td {
+            border: 1px solid gray;
+            width: 25vw;
+        }
+        #tableHead {
+            background-color: lightblue;
+        }
+        textarea {
+            width: 50vw;
+            height: 250px;
+        }
+    </style>
+    <script>
+        function createTeams() {
+            var players = document.getElementById("playerInput").value.split(',').map(player => player.trim());
+            var team1 = [];
+            var team2 = [];
+    
+            if (players.length == 1) {
+                players = document.getElementById("playerInput").value.split('\n').map(player => player.trim());
+            }
+    
+            while (players.length > 0) {
+                var randomIndex = Math.floor(Math.random() * players.length);
+                var player = players[randomIndex];
+                players.splice(randomIndex, 1);
+                if (team1.length > team2.length) {
+                    team2.push(player);
+                }
+                else {
+                    team1.push(player);
+                }
+            }
+    
+            var table = document.getElementById("teamsTable");
+            if (table !== null) {
+                document.body.removeChild(table);
+            }
+    
+            table = document.createElement('table');
+            table.id = "teamsTable";
+    
+            var row = table.insertRow();
+            row.id = "tableHead";
+            row.insertCell(0).innerHTML = "Team 1";
+            row.insertCell(1).innerHTML = "Team 2";
+    
+            for (var i = 0; i < team1.length; i++) {
+                var row = table.insertRow();
+                row.insertCell(0).innerHTML = team1[i];
+                if (i < team2.length) {
+                    row.insertCell(1).innerHTML = team2[i];
+                }
+            }
+    
+            document.body.appendChild(table);
+        }
+    </script>
 </head>
 <!-- Todo, Add multiple teams -->
 <!-- Todo, Add comments -->
-<style>
-    body {
-        font-family: Arial, Helvetica, sans-serif
-    }
-    #teamsTable {
-        border-collapse: collapse;
-        margin: 25px 0;
-        font-size: 0.9em;
-        font-family: sans-serif;
-        min-width: 400px;
-        border: 1px solid gray;
-        text-align: center;
-    }
-    #teamsTable td {
-        border: 1px solid gray;
-    }
-    #tableHead {
-        background-color: lightblue;
-    }
-    textarea {
-        width: 50vw;
-        height: 250px;
-    }
-</style>
 <body>
     <h1>Random Team Creator</h1>
     <label>Players (list or comma separated): </label>
@@ -39,55 +86,5 @@
     <textarea id="playerInput"></textarea>
     <br><br>
     <button onclick="createTeams()">Create Teams</button>
-    <div id="teamsDiv">
-
-    </div>
 </body>
-
-<script>
-    function createTeams() {
-        var players = document.getElementById("playerInput").value.split(',').map(player => player.trim());
-        var team1 = [];
-        var team2 = [];
-
-        if (players.length == 1) {
-            players = document.getElementById("playerInput").value.split('\n').map(player => player.trim());
-        }
-
-        while (players.length > 0) {
-            var randomIndex = Math.floor(Math.random() * players.length);
-            var player = players[randomIndex];
-            players.splice(randomIndex, 1);
-            if (team1.length > team2.length) {
-                team2.push(player);
-            }
-            else {
-                team1.push(player);
-            }
-        }
-
-        var table = document.getElementById("teamsTable");
-        if (table !== null) {
-            document.body.removeChild(table);
-        }
-
-        table = document.createElement('table');
-        table.id = "teamsTable";
-
-        var row = table.insertRow();
-        row.id = "tableHead";
-        row.insertCell(0).innerHTML = "Team 1";
-        row.insertCell(1).innerHTML = "Team 2";
-
-        for (var i = 0; i < team1.length; i++) {
-            var row = table.insertRow();
-            row.insertCell(0).innerHTML = team1[i];
-            if (i < team2.length) {
-                row.insertCell(1).innerHTML = team2[i];
-            }
-        }
-
-        document.body.appendChild(table);
-    }
-</script>
 </html>
