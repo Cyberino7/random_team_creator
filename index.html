@@ -31,14 +31,36 @@
         }
     </style>
     <script>
+        function updateTeamTable(rowIndex, position, teamNumber) {
+            var team = JSON.parse(localStorage.getItem('team' + teamNumber.toString()));
+            if (position == 0) {
+                var table = document.getElementById('teamsTable');
+                var row = table.insertRow();
+                row.id = "row" + rowIndex.toString();
+                row.insertCell(0).innerHTML = team[rowIndex];
+            }
+            else {
+                var row = document.getElementById('row' + rowIndex.toString());
+                row.insertCell(1).innerHTML = team[rowIndex];
+            }
+        }
+
         function createTeams() {
-            var players = document.getElementById("playerInput").value.split(',').map(player => player.trim()).filter(element => element != "");
             var team1 = [];
             var team2 = [];
-    
+
+            var players = document.getElementById("playerInput").value.split(',').map(player => player.trim()).filter(element => element != "");
             if (players.length == 1) {
                 players = document.getElementById("playerInput").value.split('\n').map(player => player.trim()).filter(element => element != "");
             }
+
+            var table = document.getElementById("teamsTable");
+            if (table !== null) {
+                document.body.removeChild(table);
+            }
+    
+            table = document.createElement('table');
+            table.id = "teamsTable";
 
             while (players.length > 0) {
                 var randomIndex = Math.floor(Math.random() * players.length);
@@ -51,29 +73,31 @@
                     team1.push(player);
                 }
             }
-    
-            var table = document.getElementById("teamsTable");
-            if (table !== null) {
-                document.body.removeChild(table);
-            }
-    
-            table = document.createElement('table');
-            table.id = "teamsTable";
-    
+            
+            localStorage.setItem("team1", JSON.stringify(team1))
+            localStorage.setItem("team2", JSON.stringify(team2))
+
             var row = table.insertRow();
             row.id = "tableHead";
             row.insertCell(0).innerHTML = "Team 1";
             row.insertCell(1).innerHTML = "Team 2";
-    
+            document.body.appendChild(table);
+            
+            var timeout = 0
+            const baseTime = 1000
+            const randomTime = 1000
             for (var i = 0; i < team1.length; i++) {
-                var row = table.insertRow();
-                row.insertCell(0).innerHTML = team1[i];
+                timeout += Math.random() * randomTime + baseTime
+                // updateTeamTable(i, 0, team1[i]);
+                setTimeout(updateTeamTable.bind(null, i, 0, 1), timeout);
                 if (i < team2.length) {
-                    row.insertCell(1).innerHTML = team2[i];
+                    timeout += Math.random() * randomTime + baseTime
+                    // updateTeamTable(i, 1, team2[i]);
+                    setTimeout(updateTeamTable.bind(null, i, 1, 2), timeout);
                 }
             }
     
-            document.body.appendChild(table);
+            
         }
     </script>
 </head>
