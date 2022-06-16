@@ -46,6 +46,7 @@
         }
 
         function createTeams() {
+            document.getElementById("createTeamsButton").disabled = true;
             var team1 = [];
             var team2 = [];
 
@@ -96,7 +97,10 @@
                     setTimeout(updateTeamTable.bind(null, i, 1, 2), timeout);
                 }
             }
-    
+            
+            setTimeout(() => {
+                document.getElementById("createTeamsButton").disabled = false;
+            }, timeout);
             
         }
     </script>
@@ -109,6 +113,6 @@
     <br><br>
     <textarea id="playerInput"></textarea>
     <br><br>
-    <button onclick="createTeams()">Create Teams</button>
+    <button id="createTeamsButton" onclick="createTeams()">Create Teams</button>
 </body>
 </html>
